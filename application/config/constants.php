@@ -117,3 +117,4 @@ define('ACCESS_TOKEN_ERRORS',					302);
 
 define('BAD_REQUEST',							400);
 define('FORBIDDEN',								403);
+define('UNPROCESSABLE_ENTITY',					422);

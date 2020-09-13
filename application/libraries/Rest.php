@@ -1,12 +1,13 @@
 <?php
     class Rest{
         public $request;
-        public $serviceName;
+        //public $serviceName;
         public $param;
         public $dbConn;
         public $userId;
 
         public function __construct() {
+            $data = [];
             if(!in_array($_SERVER['REQUEST_METHOD'], ['GET', 'POST'])) {
                 $this->throwError(REQUEST_METHOD_NOT_VALID, 'Request Method is not valid.');
             }
@@ -16,14 +17,16 @@
             }
 
             if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->request = 'POST';
                 $handler = fopen('php://input', 'r');
-                $this->request = stream_get_contents($handler);
+                $data = stream_get_contents($handler);
             }
             if($_SERVER['REQUEST_METHOD'] == 'GET') {
-                $this->request = json_encode($_GET);
+                $this->request = 'GET';
+                $data = json_encode($_GET);
             }
 
-            $this->param = json_decode($this->request, true);
+            $this->param = json_decode($data, true);
         }
 
         public function validateParameter($fieldName, $value, $dataType, $required = true) {
@@ -48,6 +51,12 @@
                         $this->throwError(VALIDATE_PARAMETER_DATATYPE, "Datatype is not valid for " . $fieldName . '. It should be string.');
                     }
                     break;
+
+                case 'ARRAY':
+                    if(!is_array($value)) {
+                        $this->throwError(VALIDATE_PARAMETER_DATATYPE, "Datatype is not valid for " . $fieldName . '. It should be array.');
+                    }
+                    break;
                 
                 default:
                     $this->throwError(VALIDATE_PARAMETER_DATATYPE, "Datatype is not valid for " . $fieldName);
@@ -58,7 +67,7 @@
 
         }
 
-        public function processApi() {
+        /*public function processApi() {
             try {
                 $api = new API;
                 $rMethod = new reflectionMethod('API', $this->serviceName);
@@ -70,7 +79,7 @@
                 $this->throwError(API_DOST_NOT_EXIST, "API does not exist.");
             }
             
-        }
+        }*/
 
         public function throwError($code, $message) {
             header("content-type: application/json");

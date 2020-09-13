@@ -20,9 +20,10 @@ class Frontend extends CI_Controller {
 	 */
 	public function index()
 	{
-		$curlRes =  $this->callApi('getAllProducts');
+		$curlRes =  $this->callApi('getAllProducts', 'get');
         $data = json_decode($curlRes);
-        $allProductData = $data->response->result;
+        echo "<pre>";print_r($data);die("stopp");
+        /*$allProductData = $data->response->result;
 		$allProductName = array_column($allProductData, "name", "product_id");
 		$allProductPrice = array_column($allProductData, "price", "product_id");
 		$allProductImages = [];
@@ -30,7 +31,7 @@ class Frontend extends CI_Controller {
 			$allProductImages[$value->product_id][] = $value->image_path;
 		}
 
-		$this->load->view('frontend/index', ['allProductName' => $allProductName, 'allProductPrice'=> $allProductPrice, 'allProductImages'=>$allProductImages]);
+		$this->load->view('frontend/index', ['allProductName' => $allProductName, 'allProductPrice'=> $allProductPrice, 'allProductImages'=>$allProductImages]);*/
 	}
 
 	public function callApi($apiName, $method = 'post', $data = []){
@@ -46,9 +47,7 @@ class Frontend extends CI_Controller {
 
             // 2. Set the CURLOPT_POST option to true for POST request
             curl_setopt($curl, CURLOPT_POST, $methodeFlag);
-            if(empty($data)){
-            	$data = ['list' => true];
-            }
+
             // 3. Set the request data as JSON using json_encode function
             curl_setopt($curl, CURLOPT_POSTFIELDS,  json_encode($data));
 
