@@ -1,8 +1,12 @@
 # Codeigniter Shopping Cart API (GET, POST)
 
+
+<h2>Add products from backend</h2>
+<strong>URL = http://localhost:8080/shopping-cart-api/index.php/backend/addproduct</strong>
+<p>Just open with browser to add produts from ui</p>
+
 <h2>Get all Products</h2>
 <strong>http://localhost:8080/shopping-cart-api/index.php/Api/getAllProducts</strong>
-<p>Request should be a raw with json format</p>
 <pre>
 	<code>
 BODY = RAW
@@ -41,6 +45,7 @@ RESPONSE =
 }
 	</code>
 </pre>
+
 
 <h2>Add to Cart</h2>
 <strong>URL = http://localhost:8080/shopping-cart-api/index.php/Api/addToCart</strong>
